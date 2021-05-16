@@ -1,0 +1,17 @@
+--how many pizzas were ordered
+
+SELECT count(order_id)
+from customer_orders
+
+--For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+
+with changed_table as 
+(
+  select 
+  case when (exclusions in ('null','NaN','') and extras in ('null','NaN','')) then 'no_change' else 'change' end changed
+  from customer_orders
+)
+  select changed,count(changed)
+  from changed_table
+  group by 1
+          
